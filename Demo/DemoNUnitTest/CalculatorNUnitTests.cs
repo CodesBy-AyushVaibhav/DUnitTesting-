@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,17 @@ namespace Demo
             int result = calculator.AddNumbers(10, 20);
 
             //Assert
-            Assert.Equals(30, result);
+            ClassicAssert.AreEqual(30, result);
 
+        }
+
+        [Test]
+        public void IsOddCheaker_InputEvenNumber_ReturnFalse()
+        { 
+         Calculator calc = new ();
+            bool isOdd = calc.IsOddNumber(10);
+            Assert.That(isOdd, Is.EqualTo(false));
+            ClassicAssert.IsFalse(isOdd);                  //Both ways are same
         }
     }
 }
