@@ -12,7 +12,7 @@ namespace Demo
         public string GreetAndCombineNames(string FirstName, string LastName)
         {
             GreetMessage = $"Hello, {FirstName} {LastName}";
-            return GreetMessage;
+            return GreetMessage; 
         }
     }
 }
