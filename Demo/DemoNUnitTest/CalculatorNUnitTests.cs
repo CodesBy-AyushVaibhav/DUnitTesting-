@@ -48,8 +48,8 @@ namespace Demo
         //Combining Multiple Unit Test
 
         [Test]
-        [TestCase(10,ExpectedResult = false)]
-        [TestCase(13,ExpectedResult = true)]
+        [TestCase(10, ExpectedResult = false)]
+        [TestCase(13, ExpectedResult = true)]
 
         public bool IsOddCheaker_InputNumber_RetrunTrueIfOdd(int a)
         {
@@ -58,11 +58,11 @@ namespace Demo
         }
 
         [Test]
-        [TestCase(4.5,10.5)]   //15.9
-        [TestCase(5.43,10.53)]   //15.93
-        [TestCase(5.49,10.59)]   //16.08
+        [TestCase(4.5, 10.5)]   //15.9
+        [TestCase(5.43, 10.53)]   //15.93
+        [TestCase(5.49, 10.59)]   //16.08
 
-        public static void AddNumbers_InputTwoDouble_GetCorrectAddition(double a,double b)
+        public static void AddNumbers_InputTwoDouble_GetCorrectAddition(double a, double b)
         {
             //Arrange
             Calculator calculator = new();
@@ -72,11 +72,36 @@ namespace Demo
             double result = calculator.AddNumbersDouble(a, b);
 
             //Assert
-            ClassicAssert.AreEqual(15.9, result,1);          // 1 is used as delta double reasult with range [-1,+1]
+            ClassicAssert.AreEqual(15.9, result, 1);          // 1 is used as delta double reasult with range [-1,+1]
+
+        }
+
+
+        [Test]
+        public void OddRanger_InputMinAndMax_ReturnValidOddRange()
+        {
+            Calculator calculator = new();
+            List<int> expectedOddRange = new() { 5, 7, 9 };
+
+            List<int> result = calculator.GetOddRange(5, 10);
+
+            Assert.That(result, Is.EqualTo(expectedOddRange));
+            ClassicAssert.AreEqual(expectedOddRange, result );
+            ClassicAssert.Contains(7, result);
+            Assert.That(result, Does.Contain(7));
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count,Is.EqualTo(3) );
+            Assert.That(result, Has.No.Member(6));
+            Assert.That(result, Is.Ordered);
+            //Assert.That(result, Is.Ordered.Descending);      
+            Assert.That(result, Is.Unique);
+
+
+
+
 
         }
 
     }
-
 }
 
