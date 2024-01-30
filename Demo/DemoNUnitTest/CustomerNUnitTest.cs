@@ -63,5 +63,54 @@ namespace Demo
             Assert.That(result, Is.InRange(10, 25));
 
         }
+
+        [Test]
+        public void GreetMessage_GreetWithoutLastName_ReturnNotNull()
+        {
+            customer.GreetAndCombineNames("Ayush", "");
+            ClassicAssert.IsNotNull(customer.GreetMessage);
+            ClassicAssert.IsFalse(string.IsNullOrEmpty(customer.GreetMessage));
+        }
+        [Test]
+        public void GreetCheaker_EmptyFirstName_ThrowsException()
+        {
+            var exceptionDetails = Assert.Throws<ArgumentException>(() => 
+            customer.GreetAndCombineNames("", "Vaibhav"));
+
+            ClassicAssert.AreEqual("Empty First Name", exceptionDetails.Message);
+           
+            //Same function with Assert.That Method.
+
+            Assert.That(()=>customer.GreetAndCombineNames("","Vaibhav"), 
+                Throws.ArgumentException.With.Message.EqualTo("Empty First Name"));
+
+            //************************************************************************
+
+            //Only check the Argument Exception 
+
+            Assert.Throws<ArgumentException>(() =>
+           customer.GreetAndCombineNames("", "Vaibhav"));
+
+                   
+            Assert.That(() => customer.GreetAndCombineNames("", "Vaibhav"),
+                Throws.ArgumentException);
+        }
+
+        [Test]
+        public void CustomerType_CreateCustomerWithLessThan100Order_ReturnBasicCustomer()
+        {
+            customer.OrderTotal = 10;
+            var result = customer.GetCustomerDetails();
+            Assert.That(result, Is.TypeOf<BasicCustomer>());
+        }
+
+       
+        [Test]
+        public void CustomerType_CreateCustomerWithMoreThan100Order_ReturnBasicCustomer()
+        {
+            customer.OrderTotal = 100;
+            var result = customer.GetCustomerDetails();
+            Assert.That(result, Is.TypeOf<PlatinumCustomers>());
+        }
     }
 }
