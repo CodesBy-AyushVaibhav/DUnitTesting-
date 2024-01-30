@@ -22,19 +22,26 @@ namespace Demo
         [Test]
         public void CombineNames_InputFirstAndLastName_ReturnFullName() 
         { 
+            //Multiple Assert
             //Customer customer = new Customer();           //Initialize Globally
             string fullName = customer.GreetAndCombineNames("Ayush", "Vaibhav");
-            Assert.That(fullName, Is.EqualTo("Hello, Ayush Vaibhav"));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(fullName, Is.EqualTo("Hello, Ayush Vaibhav"));
+
+                ClassicAssert.AreEqual(fullName, ("Hello, Ayush Vaibhav"));
+
+                Assert.That(fullName, Does.Contain("ayush vaibhav").IgnoreCase);
+
+                Assert.That(fullName, Does.StartWith("Hello,"));
+
+                Assert.That(fullName, Does.EndWith("Vaibhav"));
+
+                Assert.That(fullName, Does.Match("Hello, [A-Z]{1}[a-z]+ [A-Z]{1}[a-z]+"));
+            });
             
-            ClassicAssert.AreEqual(fullName,("Hello, Ayush Vaibhav"));
-            
-            Assert.That(fullName, Does.Contain("ayush vaibhav").IgnoreCase);
-
-            Assert.That(fullName, Does.StartWith("Hello,"));
-
-            Assert.That(fullName, Does.EndWith("Vaibhav"));
-
-            Assert.That(fullName, Does.Match("Hello, [A-Z]{1}[a-z]+ [A-Z]{1}[a-z]+"));
+           
         }
         [Test]
         public void GreetMessage_NotGreated_Return_Null()
@@ -46,6 +53,14 @@ namespace Demo
 
             //Assert
             ClassicAssert.IsNull(customer.GreetMessage);
+
+        }
+
+        [Test]
+        public void DiscountCheck_DiscountCustomer_DiscountRange()
+        {
+            int result = customer.Discount;
+            Assert.That(result, Is.InRange(10, 25));
 
         }
     }
