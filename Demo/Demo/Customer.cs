@@ -14,6 +14,12 @@ namespace Demo
 
         public int OrderTotal { get; set; }
 
+        public bool IsPlatinum { get; set; }
+        public Customer()
+        {
+            IsPlatinum = false;
+        }
+
         public string GreetAndCombineNames(string FirstName, string LastName)
         {
             if (String.IsNullOrEmpty(FirstName))

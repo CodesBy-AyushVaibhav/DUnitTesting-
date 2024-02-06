@@ -35,12 +35,13 @@ namespace Demo
         {
             if (Balance >= amount)
             {
+                _iLogBook.LogToDb("Withdrawl Amount," + amount.ToString()); //Return true
                 Balance -= amount;
-                return true;
+                return _iLogBook.LogBalanceAfterWithdrawal(Balance);
             }
             else
             {
-                return false;
+                return _iLogBook.LogBalanceAfterWithdrawal(Balance-amount); ;
             }
         }
 
