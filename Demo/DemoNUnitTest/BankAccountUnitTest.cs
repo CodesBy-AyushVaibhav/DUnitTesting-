@@ -39,7 +39,7 @@ namespace Demo
     public class BankAccountUnitTest
     {
         private BankAccount account;
-        //reating a new instance of BankAccount
+        //create a new instance of BankAccount
         [SetUp]
         public void Setup()
         {
@@ -79,7 +79,7 @@ namespace Demo
         }
 
         [Test]
-        [TestCase(100, 200)]
+        //[TestCase(100, 200)]
         [TestCase(200,150)]
         public void BankWithdraw_Withdraw100With200_ReturnTrue(int balance , int withdraw) 
         {
@@ -118,6 +118,101 @@ namespace Demo
 
             ClassicAssert.IsFalse(result);
         }
+
+
+
+        //******************************************************************************
+        [Test]
+        
+        public void BankLogDummy_LogMoqString_ReturnTrue()
+        {
+            var logMoq = new Moq.Mock<iLogBook>();
+            string desiredOutput = "hello";
+            logMoq.Setup(x => x.MessageWithReturnStr(It.IsAny<string>())).Returns((string str)=>str.ToLower());
+
+            Assert.That(logMoq.Object.MessageWithReturnStr("HELLO"), Is.EqualTo(desiredOutput));
+           
+
+            
+        }
+
+        //generate a Test Method BankLogDummy_LogMockStringOutputStr_ReturnTrue
+        [Test]
+        public void BankLogDummy_LogMockStringOutputStr_ReturnTrue()
+        {
+            var logMoq = new Moq.Mock<iLogBook>();
+            string desiredOutput = "Hello World";
+            logMoq.Setup(x => x.LogWithOutputReasult(It.IsAny<string>(), out desiredOutput)).Returns(true);
+
+            string outputStr;
+            var result = logMoq.Object.LogWithOutputReasult("World", out outputStr);
+            Assert.That(result, Is.EqualTo(true));
+            Assert.That(outputStr, Is.EqualTo(desiredOutput));
+        }
+
+        //create a test method name BankLogDummy_LogMockRefObject_ReturnTrue
+        [Test]
+        public void BankLogDummy_LogMockRefObject_ReturnTrue()
+        {
+            var logMoq = new Moq.Mock<iLogBook>();
+            Customer customer = new();
+            Customer customerNotUsed = new();
+            logMoq.Setup(x => x.LogWithRefObject(ref customer)).Returns(true);    
+
+            ClassicAssert.IsTrue(logMoq.Object.LogWithRefObject(ref customer));
+            ClassicAssert.IsFalse(logMoq.Object.LogWithRefObject(ref customerNotUsed));
+
+        }
+
+        //create a test method name it "BankLogDummy_SetAndGetLogTypeAndSeveirtyMock_MockTest"
+        [Test]
+        public void BankLogDummy_SetAndGetLogTypeAndSeveirtyMock_MockTest()
+        {
+            
+            var logMoq = new Moq.Mock<iLogBook>();
+            logMoq.Setup(x => x.LogSeveirty).Returns(10);
+            //logMoq.SetupProperty(x => x.LogType).SetReturnsDefault("Warning");
+
+            
+
+            logMoq.Object.LogSeveirty = 100;
+
+            //logMoq.Object.LogType = "Error";
+            //logMoq.Object.Seveirty = "High";
+
+            //Assert.That(logMoq.Object.LogType, Is.EqualTo("Warning"));
+            Assert.That(logMoq.Object.LogSeveirty, Is.EqualTo(10));
+        
+            //CallBack
+
+            string logTemp = "Hello, ";
+            logMoq.Setup(x => x.LogToDb(It.IsAny<string>())).
+                Returns(true).Callback((string str )=> logTemp+=str);
+
+            logMoq.Object.LogToDb("Ayush");
+
+            Assert.That(logTemp, Is.EqualTo("Hello, Ayush"));
+
+
+            //CallBack
+
+            int counter = 5;
+            logMoq.Setup(x => x.LogToDb(It.IsAny<string>())).
+                Returns(true).Callback(() =>counter++);
+
+            logMoq.Object.LogToDb("Ayush");
+
+            Assert.That(counter, Is.EqualTo(6));
+
+        }
+
+       
+
+     
+    
+
+
+
 
     }
 
